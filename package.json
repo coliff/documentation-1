@@ -45,8 +45,8 @@
     "glob": "^7.1.2",
     "globals-docs": "^2.4.0",
     "highlight.js": "^9.12.0",
-    "js-yaml": "^3.10.0",
-    "lodash": "^4.17.10",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.12",
     "mdast-util-inject": "^1.1.0",
     "micromatch": "^3.1.5",
     "mime": "^2.2.0",
@@ -71,7 +71,8 @@
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
     "vue-template-compiler": "^2.5.16",
-    "yargs": "^9.0.1"
+    "yargs": "^9.0.1",
+    "snyk": "^1.195.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -119,12 +120,13 @@
     "build": "rm -rf lib && babel -D src -d lib && npm run doc",
     "release": "standard-version",
     "precommit": "lint-staged",
-    "prepublish": "npm run build",
+    "prepublish": "npm run snyk-protect; npm run build",
     "format": "prettier --write '{src,__tests__,declarations,bin,default_theme}/**/*.js'",
     "doc": "node ./bin/documentation.js build src/index.js -f md --access=public > docs/NODE_API.md",
     "self-lint": "node ./bin/documentation.js lint src",
     "test": "npm run build && eslint . && flow check && jest",
-    "test-ci": "npm run build && eslint . && flow check && jest --runInBand"
+    "test-ci": "npm run build && eslint . && flow check && jest --runInBand",
+    "snyk-protect": "snyk protect"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -156,5 +158,6 @@
     "ignore": [
       "remote-origin-url"
     ]
-  }
+  },
+  "snyk": true
 }
